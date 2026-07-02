@@ -26,16 +26,19 @@
       position: relative;
     }
 
-    /* full-screen background image */
-    .bg-image {
+    /* ---- video background ---- */
+    #bg-video {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1200&q=80') no-repeat center center/cover;
-      filter: brightness(0.6) saturate(1.1);
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translateX(-50%) translateY(-50%);
       z-index: 0;
+      object-fit: cover;
+      filter: brightness(0.55) saturate(1.1);
     }
 
     .bg-overlay {
@@ -241,6 +244,17 @@
       }
     }
 
+    @keyframes fallReverse {
+      0% {
+        transform: translateY(-10vh) rotate(0deg) scale(0.8);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(110vh) rotate(-720deg) scale(1.2);
+        opacity: 0.2;
+      }
+    }
+
     @media (max-width: 480px) {
       .apology-card {
         padding: 1.8rem 1rem;
@@ -265,8 +279,12 @@
 </head>
 <body>
 
-  <!-- Background image & overlay -->
-  <div class="bg-image"></div>
+  <!-- Video background -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+    <!-- Fallback: if video doesn't load, show a gradient -->
+    Your browser does not support the video tag.
+  </video>
   <div class="bg-overlay"></div>
 
   <!-- 3D Heart canvas -->
@@ -535,32 +553,10 @@
         span.style.animationDelay = (Math.random() * 15) + 's';
         span.style.opacity = 0.3 + Math.random() * 0.5;
         span.style.letterSpacing = (1 + Math.random() * 3) + 'px';
-        // random rotation direction
-        const rot = Math.random() > 0.5 ? 1 : -1;
-        span.style.setProperty('--rot', rot);
         snowContainer.appendChild(span);
       }
 
-      // Add a tiny variation to rotation via keyframes (we'll use inline style animation)
-      // We can't easily mix, but we add a second animation for rotation using JS
-      // Instead we just rely on the existing fall animation which includes rotate(720deg)
-      // but we want some to rotate opposite direction: we modify keyframes dynamically
-      // Since we can't easily override keyframes, we use a style tag
-      const styleSheet = document.createElement('style');
-      styleSheet.textContent = `
-        .snow-name {
-          animation: fall linear infinite;
-        }
-        @keyframes fall {
-          0% { transform: translateY(-10vh) rotate(0deg) scale(0.8); opacity: 0.8; }
-          100% { transform: translateY(110vh) rotate(720deg) scale(1.2); opacity: 0.2; }
-        }
-      `;
-      document.head.appendChild(styleSheet);
-
-      // Force some to rotate other way by using a different animation name
-      // We'll just adjust with a small script: set different animation direction via CSS custom property
-      // But simpler: we add a class to some
+      // Make some snowflakes fall in reverse rotation
       const snowElements = document.querySelectorAll('.snow-name');
       snowElements.forEach((el, index) => {
         if (index % 2 === 0) {
@@ -568,16 +564,6 @@
           el.style.animationDelay = (Math.random() * 15) + 's';
         }
       });
-
-      // Add reverse keyframe
-      const styleSheet2 = document.createElement('style');
-      styleSheet2.textContent = `
-        @keyframes fallReverse {
-          0% { transform: translateY(-10vh) rotate(0deg) scale(0.8); opacity: 0.8; }
-          100% { transform: translateY(110vh) rotate(-720deg) scale(1.2); opacity: 0.2; }
-        }
-      `;
-      document.head.appendChild(styleSheet2);
 
     })();
   </script>
