@@ -286,6 +286,31 @@
       outline: 2px solid var(--neon-pink);
       outline-offset: 3px;
     }
+
+    /* Audio notification for users */
+    #audio-notice {
+      position: fixed;
+      bottom: 5rem;
+      right: 1.6rem;
+      z-index: 5;
+      background: rgba(10, 4, 23, 0.85);
+      border: 1px solid rgba(255, 62, 200, 0.3);
+      color: var(--lavender-dim);
+      font-size: 0.7rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      max-width: 200px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    #audio-notice.visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -295,8 +320,9 @@
   <div class="watermark"><span>never be the same</span></div>
   <div id="hearts"></div>
 
-  <audio id="bg-audio" src="https://files.catbox.moe/mr11u1.m4a" loop></audio>
+  <audio id="bg-audio" src="https://files.catbox.moe/mr11u1.m4a" loop preload="auto"></audio>
   <button id="music-toggle" aria-label="Play music">♪ play song</button>
+  <div id="audio-notice">Tap anywhere to start the music ✦</div>
 
   <main>
     <div class="eyebrow">a small apology, sent quietly</div>
@@ -334,6 +360,7 @@
   </main>
 
   <script>
+    // Floating hearts
     const container = document.getElementById('hearts');
     const symbols = ['❤', '💜', '♥'];
     const total = 34;
@@ -353,36 +380,102 @@
       container.appendChild(h);
     }
 
+    // Audio controls with robust autoplay
     const audio = document.getElementById('bg-audio');
     const toggle = document.getElementById('music-toggle');
+    const notice = document.getElementById('audio-notice');
     let playing = false;
+    let audioStarted = false;
 
     function startAudio() {
-      if (playing) return;
-      audio.play().then(() => {
-        playing = true;
-        toggle.textContent = '♪ pause song';
-      }).catch(() => { /* wait for a real interaction */ });
+      if (audioStarted) return;
+
+      audio.play()
+        .then(() => {
+          playing = true;
+          audioStarted = true;
+          toggle.textContent = '♪ pause song';
+          notice.classList.remove('visible');
+          console.log('Audio playing successfully');
+        })
+        .catch((err) => {
+          console.log('Autoplay blocked, waiting for user interaction:', err);
+          // Show notice to user
+          notice.classList.add('visible');
+          // Hide notice after 6 seconds
+          setTimeout(() => {
+            notice.classList.remove('visible');
+          }, 6000);
+        });
     }
 
-    // AUTOPLAY: attempt immediately, and also on first user interaction
+    // Try to start audio immediately (may be blocked)
     startAudio();
 
-    // Also try on any user interaction as a fallback (most browsers require this)
-    ['click', 'touchstart', 'keydown', 'scroll'].forEach(evt => {
-      document.addEventListener(evt, startAudio, { once: true, passive: true });
+    // Also try on page load
+    window.addEventListener('load', startAudio);
+
+    // Try on ANY user interaction (most reliable for modern browsers)
+    const userEvents = ['click', 'touchstart', 'keydown', 'scroll', 'mousemove'];
+    let userInteracted = false;
+
+    userEvents.forEach(evt => {
+      document.addEventListener(evt, function onInteraction() {
+        if (!audioStarted) {
+          startAudio();
+        }
+        // Remove the notice on any interaction
+        notice.classList.remove('visible');
+        // Remove this listener after first interaction to be clean
+        if (!userInteracted) {
+          userInteracted = true;
+          userEvents.forEach(e => {
+            document.removeEventListener(e, onInteraction);
+          });
+        }
+      }, { passive: true });
     });
 
+    // Toggle button
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (!playing) {
+
+      if (!audioStarted) {
         startAudio();
-      } else {
+        return;
+      }
+
+      if (playing) {
         audio.pause();
         playing = false;
         toggle.textContent = '♪ play song';
+      } else {
+        audio.play()
+          .then(() => {
+            playing = true;
+            toggle.textContent = '♪ pause song';
+          })
+          .catch((err) => {
+            console.log('Playback failed:', err);
+          });
       }
     });
+
+    // Handle audio ending (though it loops)
+    audio.addEventListener('ended', () => {
+      // If it somehow ends and we're still playing, restart
+      if (playing) {
+        audio.play().catch(() => {});
+      }
+    });
+
+    // Log if audio fails to load
+    audio.addEventListener('error', (e) => {
+      console.error('Audio loading error:', e);
+      toggle.textContent = '♪ audio unavailable';
+    });
+
+    console.log('Page ready — audio will start on first interaction');
   </script>
 
 </body>
