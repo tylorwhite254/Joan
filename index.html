@@ -47,6 +47,14 @@
       linear-gradient(180deg, rgba(10,4,23,0.55), rgba(10,4,23,0.8));
   }
 
+  #hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:3;
+    overflow:hidden;
+  }
+
   .watermark{
     position:fixed;
     inset:0;
@@ -68,14 +76,6 @@
     letter-spacing:0.02em;
   }
 
-  #hearts{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:3;
-    overflow:hidden;
-  }
-
   .heart{
     position:absolute;
     top:-40px;
@@ -86,13 +86,6 @@
     animation-timing-function:linear;
     animation-iteration-count:infinite;
     user-select:none;
-    white-space:nowrap;
-  }
-
-  .heart.falling-name{
-    font-family:'Marck Script', cursive;
-    color:#fff;
-    filter:drop-shadow(0 0 8px rgba(181,55,242,0.85));
   }
 
   @keyframes fall{
@@ -241,6 +234,10 @@
     margin-bottom:0.4rem;
   }
 
+  @media (prefers-reduced-motion: reduce){
+    .heart, h1.name{ animation:none !important; }
+  }
+
   #music-toggle{
     position:fixed;
     bottom:1.6rem;
@@ -266,10 +263,6 @@
   #music-toggle:focus-visible{
     outline:2px solid var(--neon-pink);
     outline-offset:3px;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .heart, h1.name{ animation:none !important; }
   }
 </style>
 </head>
@@ -320,17 +313,14 @@
 
 <script>
   const container = document.getElementById('hearts');
-  const symbols = ['❤','💜','♥','Joan Mumo'];
-  const total = 40;
+  const symbols = ['❤','💜','♥'];
+  const total = 34;
 
   for(let i=0;i<total;i++){
     const h = document.createElement('div');
     h.className = 'heart';
-    const symbol = symbols[Math.floor(Math.random()*symbols.length)];
-    h.textContent = symbol;
-    const isName = symbol === 'Joan Mumo';
-    if(isName) h.classList.add('falling-name');
-    const size = isName ? (12 + Math.random()*8) : (10 + Math.random()*20);
+    h.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    const size = 10 + Math.random()*20;
     h.style.left = Math.random()*100 + 'vw';
     h.style.fontSize = size + 'px';
     h.style.setProperty('--drift', (Math.random()*80 - 40) + 'px');
@@ -339,9 +329,7 @@
     h.style.animationDelay = (Math.random()*duration) + 's';
     h.style.opacity = 0.4 + Math.random()*0.5;
     container.appendChild(h);
-  }
-
-  const audio = document.getElementById('bg-audio');
+  }  const audio = document.getElementById('bg-audio');
   const toggle = document.getElementById('music-toggle');
   let playing = false;
 
@@ -350,16 +338,13 @@
     audio.play().then(() => {
       playing = true;
       toggle.textContent = '♪ pause song';
-    }).catch(() => { /* browser blocked it -- wait for a real interaction */ });
+    }).catch(() => { /* wait for a real interaction */ });
   }
 
-  // Try immediately on load -- works if her browser allows it.
-  startAudio();
-  window.addEventListener('load', startAudio);
-
-  // Browsers commonly block audio with sound from starting before any
-  // interaction with the page, so as a fallback we also start it on the
-  // first touch, click, key press, or scroll anywhere on the page.
+  // Browsers block audio with sound from starting before the visitor
+  // interacts with the page at all, so we start it on the first touch,
+  // click, key press, or scroll anywhere — as close to "automatic" as
+  // a browser allows.
   ['click','touchstart','keydown','scroll'].forEach(evt => {
     document.addEventListener(evt, startAudio, { once:true, passive:true });
   });
