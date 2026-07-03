@@ -1,566 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For Joan ❤️ A Thousand Apologies</title>
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    /* reset & base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Joan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Marck+Script&family=Manrope:wght@300;400;600&display=swap');
 
-    body {
-      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background: #1a0b0b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+  :root{
+    --void: #0a0417;
+    --void-2: #120826;
+    --neon-purple: #b537f2;
+    --neon-pink: #ff3ec8;
+    --lavender: #e6d9ff;
+    --lavender-dim: #9c8bc4;
+    --glow: 0 0 20px rgba(181,55,242,0.55);
+  }
 
-    /* full-screen background image */
-    .bg-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://files.catbox.moe/q4gw9d.jpg') no-repeat center center/cover;
-      filter: brightness(0.6) saturate(1.1);
-      z-index: 0;
-    }
+  *{margin:0;padding:0;box-sizing:border-box;}
 
-    .bg-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(200, 70, 70, 0.15) 0%, rgba(40, 10, 10, 0.6) 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
+  html,body{
+    background:var(--void);
+    color:var(--lavender);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    min-height:100%;
+  }
 
-    /* main apology card */
-    .apology-card {
-      position: relative;
-      z-index: 20;
-      max-width: 680px;
-      width: 90%;
-      padding: 2.5rem 2rem;
-      background: rgba(20, 5, 5, 0.55);
-      backdrop-filter: blur(8px) saturate(180%);
-      -webkit-backdrop-filter: blur(8px) saturate(180%);
-      border-radius: 48px 16px 48px 16px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 200, 200, 0.2);
-      text-align: center;
-      border: 1px solid rgba(255, 180, 180, 0.3);
-      transition: transform 0.3s ease;
-      animation: floatGlow 4s infinite alternate ease-in-out;
-    }
+  #bg-photo{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0.55;
+  }
 
-    @keyframes floatGlow {
-      0% { transform: translateY(0px) scale(1); box-shadow: 0 30px 60px rgba(0,0,0,0.7); }
-      100% { transform: translateY(-8px) scale(1.01); box-shadow: 0 40px 80px rgba(200, 50, 50, 0.5); }
-    }
+  #bg-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(181,55,242,0.35), transparent 55%),
+      radial-gradient(ellipse at 80% 85%, rgba(255,62,200,0.30), transparent 55%),
+      linear-gradient(180deg, rgba(10,4,23,0.55), rgba(10,4,23,0.8));
+  }
 
-    .apology-card h1 {
-      font-size: 3.4rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #ffdddd;
-      text-shadow: 0 0 20px rgba(255, 80, 80, 0.8), 0 0 40px rgba(200, 0, 0, 0.3);
-      margin-bottom: 0.5rem;
-      font-family: 'Georgia', serif;
-    }
+  .watermark{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    overflow:hidden;
+  }
 
-    .apology-card h1 i {
-      color: #ff6b6b;
-      margin: 0 6px;
-      filter: drop-shadow(0 0 10px #ff3b3b);
-    }
+  .watermark span{
+    font-family:'Marck Script', cursive;
+    font-size:clamp(3.5rem, 16vw, 11rem);
+    color:rgba(181,55,242,0.07);
+    white-space:nowrap;
+    text-shadow:0 0 40px rgba(255,62,200,0.08);
+    transform:rotate(-8deg);
+    letter-spacing:0.02em;
+  }
 
-    .apology-card .subhead {
-      font-size: 1.1rem;
-      color: #fccccc;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      opacity: 0.9;
-      margin-bottom: 1.2rem;
-      border-bottom: 1px dashed rgba(255, 150, 150, 0.3);
-      padding-bottom: 0.8rem;
-    }
+  #hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:3;
+    overflow:hidden;
+  }
 
-    .apology-message {
-      font-size: 1.4rem;
-      line-height: 1.6;
-      color: #fff0f0;
-      background: rgba(0, 0, 0, 0.25);
-      padding: 1.2rem 1.8rem;
-      border-radius: 60px 12px 60px 12px;
-      backdrop-filter: blur(2px);
-      margin: 1.5rem 0;
-      font-weight: 300;
-      border-left: 4px solid #ff8a8a;
-      border-right: 4px solid #ff8a8a;
-      box-shadow: inset 0 0 30px rgba(255, 100, 100, 0.1);
-    }
+  .heart{
+    position:absolute;
+    top:-40px;
+    color:var(--neon-pink);
+    opacity:0.85;
+    filter:drop-shadow(0 0 6px rgba(255,62,200,0.7));
+    animation-name:fall;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    user-select:none;
+    white-space:nowrap;
+  }
 
-    .apology-message i {
-      color: #ffa5a5;
-      margin: 0 6px;
-    }
+  .heart.falling-name{
+    font-family:'Marck Script', cursive;
+    color:#fff;
+    filter:drop-shadow(0 0 8px rgba(181,55,242,0.85));
+  }
 
-    .heart-icon {
-      color: #ff3366;
-      display: inline-block;
-      animation: pulseHeart 1.2s infinite alternate;
-    }
+  @keyframes fall{
+    0%{ transform:translateY(-5vh) translateX(0) rotate(0deg); }
+    100%{ transform:translateY(105vh) translateX(var(--drift,20px)) rotate(360deg); }
+  }
 
-    @keyframes pulseHeart {
-      0% { transform: scale(1); text-shadow: 0 0 10px #ff3366; }
-      100% { transform: scale(1.3); text-shadow: 0 0 30px #ff0044, 0 0 60px #ff0044; }
-    }
+  main{
+    position:relative;
+    z-index:4;
+    max-width:760px;
+    margin:0 auto;
+    padding:8vh 6vw 12vh;
+  }
 
-    .song-control {
-      margin: 1.8rem 0 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--neon-pink);
+    text-align:center;
+    margin-bottom:1.4rem;
+    opacity:0.85;
+  }
 
-    .song-control button {
-      background: rgba(255, 220, 220, 0.08);
-      border: 1.5px solid rgba(255, 180, 180, 0.5);
-      color: #ffe0e0;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-size: 1rem;
-      font-weight: 600;
-      backdrop-filter: blur(4px);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
+  h1.name{
+    font-family:'Marck Script', cursive;
+    font-size:clamp(3.2rem, 11vw, 6.5rem);
+    text-align:center;
+    line-height:1;
+    color:#fff;
+    text-shadow:
+      0 0 12px rgba(181,55,242,0.9),
+      0 0 28px rgba(181,55,242,0.6),
+      0 0 55px rgba(255,62,200,0.4);
+    margin-bottom:0.6rem;
+    animation:glowPulse 4s ease-in-out infinite;
+  }
 
-    .song-control button i {
-      font-size: 1.2rem;
-      color: #ff9b9b;
-    }
+  @keyframes glowPulse{
+    0%,100%{ filter:brightness(1); }
+    50%{ filter:brightness(1.18); }
+  }
 
-    .song-control button:hover {
-      background: rgba(255, 100, 100, 0.25);
-      border-color: #ff8a8a;
-      transform: scale(1.04);
-      box-shadow: 0 0 25px rgba(255, 60, 60, 0.4);
-    }
+  .subtitle{
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.05rem, 2.4vw, 1.35rem);
+    color:var(--lavender-dim);
+    margin-bottom:5rem;
+  }
 
-    .song-control button:active {
-      transform: scale(0.96);
-    }
+  .letter{
+    background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+    border:1px solid rgba(181,55,242,0.35);
+    border-radius:18px;
+    padding:clamp(2rem, 5vw, 3.4rem);
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 40px rgba(181,55,242,0.12), inset 0 0 60px rgba(181,55,242,0.04);
+  }
 
-    .credit {
-      margin-top: 1.8rem;
-      font-size: 0.8rem;
-      color: #dbbbbb;
-      opacity: 0.7;
-      letter-spacing: 1px;
-      border-top: 1px solid rgba(255, 150, 150, 0.2);
-      padding-top: 1.2rem;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+  .letter p{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(1.15rem, 2.6vw, 1.4rem);
+    line-height:1.85;
+    color:var(--lavender);
+    margin-bottom:1.5rem;
+  }
 
-    .credit i {
-      color: #ff6f6f;
-    }
+  .letter p:first-of-type::first-letter{
+    font-size:2.6rem;
+    color:var(--neon-pink);
+    font-weight:600;
+    padding-right:2px;
+  }
 
-    /* 3D Heart canvas */
-    #heart-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-      pointer-events: none;
-    }
+  .signature{
+    margin-top:2.5rem;
+    font-family:'Marck Script', cursive;
+    font-size:1.9rem;
+    color:#fff;
+    text-shadow:0 0 14px rgba(255,62,200,0.6);
+  }
 
-    /* "Joan Mumo" snow container */
-    #snow-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 10;
-      overflow: hidden;
-    }
+  .signature .nickname{
+    font-family:'Manrope', sans-serif;
+    font-size:0.85rem;
+    color:var(--lavender-dim);
+    display:block;
+    margin-top:0.4rem;
+    text-shadow:none;
+    letter-spacing:0.02em;
+  }
 
-    .snow-name {
-      position: absolute;
-      color: rgba(255, 220, 220, 0.7);
-      font-size: 1.2rem;
-      font-weight: 300;
-      letter-spacing: 2px;
-      text-shadow: 0 0 15px rgba(255, 100, 100, 0.5), 0 0 30px rgba(200, 50, 50, 0.3);
-      white-space: nowrap;
-      font-family: 'Georgia', serif;
-      animation: fall linear infinite;
-      opacity: 0;
-    }
+  .divider{
+    width:80px;
+    height:1px;
+    margin:4rem auto;
+    background:linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+    box-shadow:var(--glow);
+  }
 
-    @keyframes fall {
-      0% {
-        transform: translateY(-10vh) rotate(0deg) scale(0.8);
-        opacity: 0.8;
-      }
-      80% {
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(110vh) rotate(720deg) scale(1.2);
-        opacity: 0.2;
-      }
-    }
+  .promise-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:1.2rem;
+    margin-bottom:4rem;
+  }
 
-    @keyframes fallReverse {
-      0% {
-        transform: translateY(-10vh) rotate(0deg) scale(0.8);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(110vh) rotate(-720deg) scale(1.2);
-        opacity: 0.2;
-      }
-    }
+  .promise{
+    text-align:center;
+    padding:1.6rem 1rem;
+    border:1px solid rgba(230,217,255,0.12);
+    border-radius:14px;
+    background:rgba(181,55,242,0.05);
+    transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .promise:hover{
+    transform:translateY(-4px);
+    border-color:rgba(255,62,200,0.5);
+    box-shadow:0 0 22px rgba(255,62,200,0.25);
+  }
+  .promise .mark{
+    font-size:1.6rem;
+    color:var(--neon-pink);
+    margin-bottom:0.6rem;
+    display:block;
+  }
+  .promise p{
+    font-size:0.92rem;
+    color:var(--lavender-dim);
+    line-height:1.5;
+  }
 
-    @media (max-width: 480px) {
-      .apology-card {
-        padding: 1.8rem 1rem;
-        width: 94%;
-      }
-      .apology-card h1 {
-        font-size: 2.6rem;
-      }
-      .apology-message {
-        font-size: 1.1rem;
-        padding: 1rem 1.2rem;
-      }
-      .song-control button {
-        padding: 8px 18px;
-        font-size: 0.9rem;
-      }
-      .snow-name {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+  footer{
+    text-align:center;
+    padding-bottom:3rem;
+  }
+
+  footer .line{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--lavender-dim);
+    margin-bottom:0.4rem;
+  }
+
+  #music-toggle{
+    position:fixed;
+    bottom:1.6rem;
+    right:1.6rem;
+    z-index:5;
+    background:rgba(181,55,242,0.15);
+    border:1px solid rgba(255,62,200,0.5);
+    color:var(--lavender);
+    font-family:'Manrope', sans-serif;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    padding:0.65rem 1.1rem;
+    border-radius:999px;
+    cursor:pointer;
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 18px rgba(255,62,200,0.25);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  #music-toggle:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 26px rgba(255,62,200,0.45);
+  }
+  #music-toggle:focus-visible{
+    outline:2px solid var(--neon-pink);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .heart, h1.name{ animation:none !important; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- Background image & overlay -->
-  <div class="bg-image"></div>
-  <div class="bg-overlay"></div>
+<video id="bg-photo" autoplay muted loop playsinline src="https://files.catbox.moe/mabvs6.mp4"></video>
+<div id="bg-overlay"></div>
+<div class="watermark"><span>never be the same</span></div>
+<div id="hearts"></div>
 
-  <!-- 3D Heart canvas -->
-  <canvas id="heart-canvas"></canvas>
+<audio id="bg-audio" src="https://files.catbox.moe/mr11u1.m4a" loop></audio>
+<button id="music-toggle" aria-label="Play music">♪ play song</button>
 
-  <!-- Snow container for "Joan Mumo" -->
-  <div id="snow-container"></div>
+<main>
+  <div class="eyebrow">a small apology, sent quietly</div>
+  <h1 class="name">Joan Mumo</h1>
+  <p class="subtitle">for the friend who never stopped mattering to me</p>
 
-  <!-- Main apology card -->
-  <div class="apology-card">
-    <h1>
-      <i class="fas fa-heart heart-icon"></i> 
-      I'm Sorry 
-      <i class="fas fa-heart heart-icon"></i>
-    </h1>
-    <div class="subhead">— for every tear, every worry —</div>
+  <section class="letter">
+    <p>I know it's been a while. Longer than it should have been. Life got loud, days folded into each other, and somewhere in that noise I let the space between us grow quiet — not because I stopped caring, but because I let everything else get louder than you deserved.</p>
+    <p>You've always been the kind of friend who shows up fully, who checks in without being asked, who makes the ordinary feel a little lighter. I don't say this enough, so let me say it plainly now: I'm sorry for the silence, and I'm grateful it hasn't changed how much I care about you.</p>
+    <p>Nothing about how I feel toward you has ever gone away. Not for a single day. I just went quiet — and you deserved better than that.</p>
+    <div class="signature">— always your friend, Tylor <span class="nickname">(aka "Madara Uchiha", when you're feeling dramatic)</span></div>
+  </section>
 
-    <div class="apology-message">
-      <i class="fas fa-quote-left" style="opacity:0.6;"></i>
-      My love, I know I messed up. 
-      <br />
-      <span style="font-weight:300; font-style:italic; color:#ffd0d0;">
-        “You are the poetry my heart always wanted to write.”
-      </span>
-      <br />
-      Please forgive me, Joan. 
-      <i class="fas fa-quote-right" style="opacity:0.6;"></i>
+  <div class="divider"></div>
+
+  <div class="promise-grid">
+    <div class="promise">
+      <span class="mark">✦</span>
+      <p>I'm here now, and I'm not disappearing again.</p>
     </div>
-
-    <div class="song-control">
-      <button id="toggleMusicBtn">
-        <i class="fas fa-pause" id="musicIcon"></i> 
-        <span id="musicLabel">Pause</span>
-      </button>
+    <div class="promise">
+      <span class="mark">✦</span>
+      <p>You can tell me anything — the silence was mine to fix, not yours.</p>
     </div>
-
-    <div class="credit">
-      <span><i class="fas fa-heart" style="color:#ff4d4d;"></i> with all my heart</span>
-      <span><i class="fas fa-music"></i> “Apologize” instrumental</span>
+    <div class="promise">
+      <span class="mark">✦</span>
+      <p>This page exists because you're worth the effort it took to make it.</p>
     </div>
   </div>
 
-  <!-- Three.js & 3D hearts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-    (function() {
-      // ----- 3D Heart particles -----
-      const canvas = document.getElementById('heart-canvas');
-      const scene = new THREE.Scene();
-      scene.background = null;
+  <footer>
+    <p class="line">Thank you for being patient with me.</p>
+    <p class="line">I still care about you, Joan — more than this page can hold.</p>
+  </footer>
+</main>
 
-      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.set(0, 0, 28);
+<script>
+  const container = document.getElementById('hearts');
+  const symbols = ['❤','💜','♥','Joan Mumo'];
+  const total = 40;
 
-      const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        alpha: true,
-        antialias: true
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  for(let i=0;i<total;i++){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    const symbol = symbols[Math.floor(Math.random()*symbols.length)];
+    h.textContent = symbol;
+    const isName = symbol === 'Joan Mumo';
+    if(isName) h.classList.add('falling-name');
+    const size = isName ? (12 + Math.random()*8) : (10 + Math.random()*20);
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.fontSize = size + 'px';
+    h.style.setProperty('--drift', (Math.random()*80 - 40) + 'px');
+    const duration = 8 + Math.random()*10;
+    h.style.animationDuration = duration + 's';
+    h.style.animationDelay = (Math.random()*duration) + 's';
+    h.style.opacity = 0.4 + Math.random()*0.5;
+    container.appendChild(h);
+  }
 
-      function generateHeartPoints(count = 1800) {
-        const points = [];
-        for (let i = 0; i < count; i++) {
-          const t = Math.random() * Math.PI * 2;
-          const scale = 0.55 + Math.random() * 0.25;
-          const x = 16 * Math.pow(Math.sin(t), 3) * scale;
-          const y = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * scale;
-          const z = (Math.random() - 0.5) * 4.5;
-          points.push({
-            x: x + (Math.random() - 0.5) * 0.15,
-            y: y + (Math.random() - 0.5) * 0.15,
-            z: z + (Math.random() - 0.5) * 0.8
-          });
-        }
-        return points;
-      }
+  const audio = document.getElementById('bg-audio');
+  const toggle = document.getElementById('music-toggle');
+  let playing = false;
 
-      const heartData = generateHeartPoints(2200);
-      const positions = [];
-      const colors = [];
+  function startAudio(){
+    if(playing) return;
+    audio.play().then(() => {
+      playing = true;
+      toggle.textContent = '♪ pause song';
+    }).catch(() => { /* browser blocked it -- wait for a real interaction */ });
+  }
 
-      heartData.forEach(p => {
-        positions.push(p.x, p.y, p.z);
-        const r = 0.9 + 0.3 * Math.random();
-        const g = 0.1 + 0.3 * Math.random();
-        const b = 0.2 + 0.5 * Math.random();
-        colors.push(r, g, b);
-      });
+  // Try immediately on load -- works if her browser allows it.
+  startAudio();
+  window.addEventListener('load', startAudio);
 
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  // Browsers commonly block audio with sound from starting before any
+  // interaction with the page, so as a fallback we also start it on the
+  // first touch, click, key press, or scroll anywhere on the page.
+  ['click','touchstart','keydown','scroll'].forEach(evt => {
+    document.addEventListener(evt, startAudio, { once:true, passive:true });
+  });
 
-      function createHeartTexture() {
-        const canvas2 = document.createElement('canvas');
-        canvas2.width = 64;
-        canvas2.height = 64;
-        const ctx = canvas2.getContext('2d');
-        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        gradient.addColorStop(0, 'rgba(255, 80, 120, 1)');
-        gradient.addColorStop(0.3, 'rgba(255, 40, 80, 1)');
-        gradient.addColorStop(0.7, 'rgba(200, 20, 40, 0.9)');
-        gradient.addColorStop(1, 'rgba(120, 0, 20, 0)');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 64, 64);
-        ctx.font = '28px "Segoe UI", "Arial Unicode MS", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(255,0,50,0.8)';
-        ctx.shadowBlur = 20;
-        ctx.fillStyle = 'rgba(255, 200, 200, 0.9)';
-        ctx.fillText('♥', 32, 34);
-        return new THREE.CanvasTexture(canvas2);
-      }
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(!playing){
+      startAudio();
+    } else {
+      audio.pause();
+      playing = false;
+      toggle.textContent = '♪ play song';
+    }
+  });
+</script>
 
-      const particleTexture = createHeartTexture();
-
-      const material = new THREE.PointsMaterial({
-        size: 0.45,
-        map: particleTexture,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        transparent: true,
-        vertexColors: true,
-        opacity: 0.95,
-        sizeAttenuation: true
-      });
-
-      const heartParticles = new THREE.Points(geometry, material);
-      scene.add(heartParticles);
-
-      // extra floating hearts
-      const extraHeartGeo = new THREE.BufferGeometry();
-      const extraPositions = [];
-      for (let i = 0; i < 400; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI * 2;
-        const radius = 12 + Math.random() * 10;
-        const x = Math.sin(theta) * Math.cos(phi) * radius;
-        const y = Math.sin(theta) * Math.sin(phi) * radius * 0.8;
-        const z = Math.cos(theta) * radius * 0.6;
-        extraPositions.push(x, y, z);
-      }
-      extraHeartGeo.setAttribute('position', new THREE.Float32BufferAttribute(extraPositions, 3));
-      const extraMaterial = new THREE.PointsMaterial({
-        size: 0.25,
-        color: 0xff6688,
-        map: particleTexture,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        opacity: 0.4,
-        depthWrite: false,
-        sizeAttenuation: true
-      });
-      const extraHearts = new THREE.Points(extraHeartGeo, extraMaterial);
-      scene.add(extraHearts);
-
-      // ring hearts
-      const ringGeo = new THREE.BufferGeometry();
-      const ringPos = [];
-      for (let i = 0; i < 300; i++) {
-        const angle = (i / 300) * Math.PI * 2;
-        const radius = 9 + Math.sin(i * 0.5) * 2;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius * 0.6;
-        const z = Math.sin(angle * 2) * 3;
-        ringPos.push(x, y, z);
-      }
-      ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(ringPos, 3));
-      const ringMat = new THREE.PointsMaterial({
-        size: 0.2,
-        color: 0xff8899,
-        map: particleTexture,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        opacity: 0.35,
-        depthWrite: false,
-        sizeAttenuation: true
-      });
-      const ringHearts = new THREE.Points(ringGeo, ringMat);
-      scene.add(ringHearts);
-
-      let clock = new THREE.Clock();
-
-      function animate() {
-        const delta = clock.getDelta();
-        const elapsed = performance.now() / 1000;
-
-        heartParticles.rotation.y = Math.sin(elapsed * 0.08) * 0.3;
-        heartParticles.rotation.x = Math.sin(elapsed * 0.05) * 0.15;
-        heartParticles.rotation.z = Math.sin(elapsed * 0.03) * 0.1;
-
-        extraHearts.rotation.y = elapsed * 0.04;
-        extraHearts.rotation.x = Math.sin(elapsed * 0.02) * 0.2;
-
-        ringHearts.rotation.y = elapsed * 0.06;
-        ringHearts.rotation.x = Math.sin(elapsed * 0.04) * 0.3;
-        ringHearts.rotation.z = Math.sin(elapsed * 0.02) * 0.2;
-
-        const pulse = 1 + Math.sin(elapsed * 1.2) * 0.02;
-        heartParticles.scale.set(pulse, pulse, pulse);
-
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-
-      // ----- Audio: background song -----
-      const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-      audio.loop = true;
-      audio.volume = 0.4;
-
-      // ----- Music toggle (pause/resume) -----
-      const toggleBtn = document.getElementById('toggleMusicBtn');
-      const musicIcon = document.getElementById('musicIcon');
-      const musicLabel = document.getElementById('musicLabel');
-
-      let isPlaying = false;
-
-      // Attempt to autoplay (will work if user has interacted)
-      audio.play().then(() => {
-        isPlaying = true;
-        musicIcon.className = 'fas fa-pause';
-        musicLabel.textContent = 'Pause';
-      }).catch(() => {
-        // Autoplay blocked, show play button
-        isPlaying = false;
-        musicIcon.className = 'fas fa-play';
-        musicLabel.textContent = 'Play';
-      });
-
-      toggleBtn.addEventListener('click', function() {
-        if (isPlaying) {
-          audio.pause();
-          musicIcon.className = 'fas fa-play';
-          musicLabel.textContent = 'Play';
-        } else {
-          audio.play().catch(() => {});
-          musicIcon.className = 'fas fa-pause';
-          musicLabel.textContent = 'Pause';
-        }
-        isPlaying = !isPlaying;
-      });
-
-      // ----- "Joan Mumo" snow effect -----
-      const snowContainer = document.getElementById('snow-container');
-      const nameText = 'Joan Mumo';
-      const snowflakeCount = 45;
-
-      for (let i = 0; i < snowflakeCount; i++) {
-        const span = document.createElement('span');
-        span.className = 'snow-name';
-        span.textContent = nameText;
-        span.style.left = Math.random() * 100 + '%';
-        span.style.fontSize = (0.8 + Math.random() * 0.8) + 'rem';
-        span.style.animationDuration = (8 + Math.random() * 12) + 's';
-        span.style.animationDelay = (Math.random() * 15) + 's';
-        span.style.opacity = 0.3 + Math.random() * 0.5;
-        span.style.letterSpacing = (1 + Math.random() * 3) + 'px';
-        snowContainer.appendChild(span);
-      }
-
-      // Make some snowflakes fall in reverse rotation
-      const snowElements = document.querySelectorAll('.snow-name');
-      snowElements.forEach((el, index) => {
-        if (index % 2 === 0) {
-          el.style.animation = `fallReverse ${8 + Math.random() * 12}s linear infinite`;
-          el.style.animationDelay = (Math.random() * 15) + 's';
-        }
-      });
-
-    })();
-  </script>
-
-  <noscript><p style="color:white;">Please enable JavaScript for the full experience.</p></noscript>
 </body>
 </html>
